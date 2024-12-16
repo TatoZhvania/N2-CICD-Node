@@ -27,6 +27,9 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      - name: Pull Vercel Project Settings
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build the Project
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
