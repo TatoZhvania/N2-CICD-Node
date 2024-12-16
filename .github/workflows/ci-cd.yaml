@@ -27,6 +27,9 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      - name: Build the Project
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
   Deploy-to-Vercel:
     needs: [Build-and-Test]
     runs-on: ubuntu-latest
