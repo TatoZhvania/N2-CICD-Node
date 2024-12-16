@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  Test:
+  Deploy-Preview:
     runs-on: ubuntu-latest
     steps:
       # Step 1: Checkout the repository
@@ -27,30 +27,25 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Step 4: Run application tests
+      # Step 4: Run tests to validate code
       - name: Run Tests
-        run: npm run test
+        run: npm test
 
-  Deploy-Preview:
-    needs: [Test]
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Checkout the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      # Step 5: Build project artifacts
+      - name: Build Project
+        run: |
+          npm run build
+          mkdir -p .vercel/output
+          cp -r dist/* .vercel/output/
 
-      # Step 2: Install Vercel CLI
+      # Step 6: Install Vercel CLI
       - name: Install Vercel CLI
         run: npm install --global vercel
 
-      # Step 3: Pull Vercel environment configuration
+      # Step 7: Pull Vercel environment configuration
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      # Step 4: Build project artifacts
-      - name: Build Project Artifacts
-        run: vercel build --output=.vercel/output --token=${{ secrets.VERCEL_TOKEN }}
-
-      # Step 5: Deploy prebuilt project artifacts
-      - name: Deploy Project Artifacts
+      # Step 8: Deploy prebuilt project artifacts
+      - name: Deploy to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
