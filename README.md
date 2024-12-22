@@ -1,3 +1,5 @@
+VERCEL_URL - https://node-app-github.vercel.app/
+
 ### `production.yml` ფაილის ახსნა
 
 ეს არის GitHub Actions ვორქფლოუ, რომელიც ავტომატურად აგებს, ტესტავს და აწვდის Production გარემოში Node.js აპლიკაციას Vercel-ზე.
